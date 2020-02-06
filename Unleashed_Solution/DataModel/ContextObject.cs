@@ -4,6 +4,6 @@ namespace Unleashed_Solution.DataModel
 {
     public class ContextObject
     {
-        public IWebDriver Driver;
+        public IWebDriver Driver { get; set; }
     }
 }
