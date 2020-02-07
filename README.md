@@ -1,6 +1,5 @@
 # Unleashed_Solution
-
-## Solution was developed using Microsoft Visual Studio Community 2017 (.NET Framework 4.7.1)
+### Solution was developed using Microsoft Visual Studio Community 2017 (.NET Framework 4.7.1)
 
 ## Important NuGet Packages:
 - ChromeDriver v79
