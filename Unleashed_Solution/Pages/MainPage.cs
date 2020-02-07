@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System.Collections.Generic;
+using System.Threading;
 using Unleashed_Solution.DataModel;
 
 namespace Unleashed_Solution.Pages
@@ -21,7 +22,7 @@ namespace Unleashed_Solution.Pages
         {
             if (_context.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elemNotificationMessage)).Displayed)
             {
-                return _context.Driver.FindElement(elemNotificationMessage).Text.Equals(notificationMessage);
+                return _context.Driver.FindElement(elemNotificationMessage).Text.Contains(notificationMessage);
             }
             else
             {
@@ -53,6 +54,7 @@ namespace Unleashed_Solution.Pages
         {
             var btnElement = By.XPath($"//a[contains(@class,'fm-button') and text()='{buttonName}']");
             _context.Driver.FindElement(btnElement).Click();
+            Thread.Sleep(2000); //TO WAIT FOR ANY ACTIONS TO LOAD
         }
 
         private bool IsLevelOneMenuExpanded(string menu)
@@ -65,7 +67,9 @@ namespace Unleashed_Solution.Pages
         {
             var menuItem = By.XPath($"//ul[contains(@class,'level-1-side-menu')]/li/a/span[text()='{menu}']/parent::a");
             _context.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(menuItem));
-            _context.Driver.FindElement(menuItem).Click();
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_context.Driver;
+            js.ExecuteScript("arguments[0].click();", _context.Driver.FindElement(menuItem));
         }
 
         private bool IsLevelTwoMenuExpanded(string menu)
@@ -78,14 +82,18 @@ namespace Unleashed_Solution.Pages
         {
             var menuItem = By.XPath($"//ul[contains(@class,'level-2-side-menu')]/li/a/span[text()='{menu}']/parent::a");
             _context.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(menuItem));
-            _context.Driver.FindElement(menuItem).Click();
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_context.Driver;
+            js.ExecuteScript("arguments[0].click();", _context.Driver.FindElement(menuItem));
         }
         
         private void ClickLevelThreeMenu(string menu)
         {
             var menuItem = By.XPath($"//ul[contains(@class,'level-3-side-menu')]/li/a/span[text()='{menu}']/parent::a");
             _context.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(menuItem));
-            _context.Driver.FindElement(menuItem).Click();
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_context.Driver;
+            js.ExecuteScript("arguments[0].click();", _context.Driver.FindElement(menuItem));
         }
     }
 }

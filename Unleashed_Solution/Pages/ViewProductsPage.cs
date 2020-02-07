@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 using System.Threading;
 using Unleashed_Solution.DataModel;
 
@@ -15,9 +16,53 @@ namespace Unleashed_Solution.Pages
 
         #region WEB ELEMENTS
         private readonly By edtProdCode = By.CssSelector("#ProductFilter");
+        private readonly By elemColumnHeaderRow = By.CssSelector("tr[id*='ProductList_DXHeadersRow']");
         private readonly By elemProductRows = By.CssSelector("tr[id*=ProductList_DXDataRow]");
         private readonly By btnDialogYes = By.XPath("//*[@id='generic-confirm-dialog']//a[text()='Yes']");
         #endregion
+
+        public string GetFirstProductCode()
+        {
+            var productRows = _context.Driver.FindElements(elemProductRows);
+
+            if (productRows.Count.Equals(0))
+            {
+                Thread.Sleep(2000); //WAIT FOR PRODUCTS TO BE DISPLAYED
+                productRows = _context.Driver.FindElements(elemProductRows);
+            }
+
+            return productRows[0].FindElements(By.CssSelector("td"))[GetColumnHeaderIndex("Product Code")].Text;
+        }
+
+        public double GetFirstProductQtyOnHand()
+        {
+            var productRows = _context.Driver.FindElements(elemProductRows);
+
+            if (productRows.Count.Equals(0))
+            {
+                Thread.Sleep(2000); //WAIT FOR PRODUCTS TO BE DISPLAYED
+                productRows = _context.Driver.FindElements(elemProductRows);
+            }
+
+            return Convert.ToDouble(productRows[0].FindElements(By.CssSelector("td"))[GetColumnHeaderIndex("Qty On Hand")].Text);
+        }
+
+        private int GetColumnHeaderIndex(string columnName)
+        {
+            var returnIndex = 0;
+            var columns = _context.Driver.FindElement(elemColumnHeaderRow).FindElements(By.XPath("./td"));
+
+            for (var i = 0; i < columns.Count; i++)
+            {
+                if (columns[i].Text.ToLower().Contains(columnName.ToLower()))
+                {
+                    returnIndex = i;
+                    break;
+                }
+            }
+
+            return returnIndex;
+        }
 
         public bool IsProductDisplayed(string prodCode)
         {

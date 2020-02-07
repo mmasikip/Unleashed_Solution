@@ -8,5 +8,6 @@
         public string ProductUnitMeasure { get; set; }
         public string ProductGroup { get; set; }
         public string ProductDefaultLabelTemplate { get; set; }
+        public double ProductQuantityOnHand { get; set; }
     }
 }
