@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
 using Unleashed_Solution.DataModel;
 
 namespace Unleashed_Solution.Pages
@@ -8,7 +6,6 @@ namespace Unleashed_Solution.Pages
     public class LoginPage
     {
         private ContextObject _context;
-        private WebDriverWait _webDriverWait;
 
         public LoginPage(ContextObject context)
         {
@@ -26,8 +23,7 @@ namespace Unleashed_Solution.Pages
             _context.Driver.FindElement(edtEmail).SendKeys(email);
             _context.Driver.FindElement(edtPassword).SendKeys(password);
             _context.Driver.FindElement(btnLogin).Click();
-            _webDriverWait = new WebDriverWait(_context.Driver, TimeSpan.FromSeconds(60));
-            return _webDriverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.TitleContains(""));
+            return _context.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.TitleContains("Dashboard"));
         }
     }
 }
