@@ -5,6 +5,7 @@
 - ChromeDriver v79
 - Selenium.WebDriver v3.141.0
 - SpecFlow v3.1.82
+- RestSharp v106.10.1
 
 ## Required Extensions:
 - NUnit 3 Test Adapter

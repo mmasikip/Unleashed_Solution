@@ -19,17 +19,21 @@ namespace Unleashed_Solution
         [BeforeScenario]
         public void InjectDriver()
         {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("--no-sandbox");
-            _context.Driver = new ChromeDriver(options);
-            _context.Wait = new WebDriverWait(_context.Driver, TimeSpan.FromSeconds(60));
-            _context.Driver.Manage().Window.Maximize();
+            if (!ScenarioContext.Current.ScenarioInfo.Title.ToLower().Contains("api validation"))
+            {
+                ChromeOptions options = new ChromeOptions();
+                options.AddArguments("--no-sandbox");
+                _context.Driver = new ChromeDriver(options);
+                _context.Wait = new WebDriverWait(_context.Driver, TimeSpan.FromSeconds(60));
+                _context.Driver.Manage().Window.Maximize();
+            }
         }
 
         [AfterScenario]
         public void Cleanup()
         {
-            _context.Driver.Quit();
+            if (!ScenarioContext.Current.ScenarioInfo.Title.ToLower().Contains("api validation"))
+                _context.Driver.Quit();
         }
     }
 }

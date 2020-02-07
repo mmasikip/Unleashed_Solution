@@ -41,8 +41,13 @@ Scenario: Task_02_Complete Sales Order flow
 	And I validate Qty On Hand is reduced by '1'
 	
 @Task3
-Scenario: Task_03_API Validate critical scenarios
-	Given I have entered 50 into the calculator
-	And I have entered 70 into the calculator
-	When I press add
-	Then the result should be 120 on the screen
+Scenario: Task_03_API Validation
+	Given I have REST Client
+	And I set Base Url SalesOrders/bfb4e4ee-2c3a-440c-8ee9-6ee4ec590b90
+	And I initialize my request
+	And I add header 'Accept' with value 'application/json'
+	And I add header 'Content-Type' with value 'application/json'
+	And I set my api-auth-id header value
+	And I set my api-auth-signature header value
+	When I make a GET request
+	Then response status returns 'OK'
